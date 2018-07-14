@@ -32,7 +32,7 @@ import Foundation
 open class CallbackRouter {
 
     /// Singletong shared instance
-    open static let shared = CallbackRouter()
+	public static let shared = CallbackRouter()
 
     /// List of action/action closure
     var actions: [Action: ActionHandler] = [:]
@@ -73,7 +73,7 @@ open class CallbackRouter {
         }
         let path = url.path
 
-        let action = String(path.characters.dropFirst()) // remove /
+        let action = String(path.dropFirst()) // remove /
 
         let parameters = url.query?.toQueryDictionary ?? [:]
         let actionParameters = CallbackRouter.action(parameters: parameters)
@@ -145,7 +145,7 @@ open class CallbackRouter {
     }
 
     /// Handle url with manager shared instance
-    open static func handleOpen(url: URL) -> Bool {
+	public static func handleOpen(url: URL) -> Bool {
         return self.shared.handleOpen(url: url)
     }
     
@@ -167,13 +167,13 @@ open class CallbackRouter {
         try client.perform(action: action, parameters: parameters, onSuccess: onSuccess, onFailure: onFailure, onCancel: onCancel)
     }
 
-    open static func perform(action: Action, urlScheme: String, parameters: Parameters = [:],
+	public static func perform(action: Action, urlScheme: String, parameters: Parameters = [:],
         onSuccess: SuccessCallback? = nil, onFailure: FailureCallback? = nil, onCancel: CancelCallback? = nil) throws {
         try CallbackRouter.shared.perform(action: action, urlScheme: urlScheme, parameters: parameters, onSuccess: onSuccess, onFailure: onFailure, onCancel: onCancel)
     }
     
     /// Utility function to get URL schemes from Info.plist
-    open static var urlSchemes: [String]? {
+	public static var urlSchemes: [String]? {
         guard let urlTypes = Bundle.main.infoDictionary?["CFBundleURLTypes"] as? [[String: AnyObject]] else {
             return nil
         }
@@ -240,7 +240,7 @@ open class CallbackRouter {
         return result
     }
 
-    open static func open(url: Foundation.URL) {
+	public static func open(url: Foundation.URL) {
         CallbackRouter.shared.open(url: url)
     }
 
