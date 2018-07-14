@@ -1,5 +1,5 @@
 //
-//  Request.swift
+//  CallbackRequest.swift
 //  CallbackURLKit
 /*
 The MIT License (MIT)
@@ -25,10 +25,10 @@ import Foundation
 
 typealias RequestID = String
 
-struct Request {
+struct CallbackRequest {
 
     let ID: RequestID
-    let client: Client
+    let client: CallbackClient
     let action: Action
     let parameters: Parameters
     let successCallback: SuccessCallback?

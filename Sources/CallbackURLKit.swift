@@ -50,11 +50,11 @@ public typealias CancelCallback = () -> Void
 // Throws: CallbackURLKitError
 public func perform(action: Action, urlScheme: String, parameters: Parameters = [:],
     onSuccess: SuccessCallback? = nil, onFailure: FailureCallback? = nil, onCancel: CancelCallback? = nil) throws {
-    try Manager.perform(action: action, urlScheme: urlScheme, parameters: parameters, onSuccess: onSuccess, onFailure: onFailure, onCancel: onCancel)
+    try CallbackRouter.perform(action: action, urlScheme: urlScheme, parameters: parameters, onSuccess: onSuccess, onFailure: onFailure, onCancel: onCancel)
 }
 
 public func register(action: Action, actionHandler: @escaping ActionHandler) {
-    Manager.shared[action] = actionHandler
+    CallbackRouter.shared[action] = actionHandler
 }
 
 // MARK: - Error

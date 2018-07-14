@@ -27,11 +27,11 @@ import Foundation
     import AppKit
 #endif
 
-// Client application
-open class Client {
+// CallbackClient application
+open class CallbackClient {
 
     open var urlScheme: String
-    open var manager: Manager?
+    open var manager: CallbackRouter?
     
     public init(urlScheme: String) {
         self.urlScheme = urlScheme
@@ -61,13 +61,13 @@ open class Client {
     open func perform(action: Action, parameters: Parameters = [:],
                       onSuccess: SuccessCallback? = nil, onFailure: FailureCallback? = nil, onCancel: CancelCallback? = nil) throws {
         
-        let request = Request(
+        let request = CallbackRequest(
             ID: UUID().uuidString, client: self,
             action: action, parameters: parameters,
             successCallback: onSuccess, failureCallback: onFailure, cancelCallback:  onCancel
         )
 
-        let manager = self.manager ?? Manager.shared
+        let manager = self.manager ?? CallbackRouter.shared
         try manager.send(request: request)
     }
 

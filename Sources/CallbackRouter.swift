@@ -1,5 +1,5 @@
 //
-//  Manager.swift
+//  CallbackRouter.swift
 //  CallbackURLKit
 /*
 The MIT License (MIT)
@@ -29,15 +29,15 @@ import Foundation
 #endif
 
 /// A class to perform and receive actions.
-open class Manager {
+open class CallbackRouter {
 
     /// Singletong shared instance
-    open static let shared = Manager()
+    open static let shared = CallbackRouter()
 
     /// List of action/action closure
     var actions: [Action: ActionHandler] = [:]
     /// keep request for callback
-    var requests: [RequestID: Request] = [:]
+    var requests: [RequestID: CallbackRequest] = [:]
 
     open var callbackURLScheme: String?
     
@@ -76,7 +76,7 @@ open class Manager {
         let action = String(path.characters.dropFirst()) // remove /
 
         let parameters = url.query?.toQueryDictionary ?? [:]
-        let actionParameters = Manager.action(parameters: parameters)
+        let actionParameters = CallbackRouter.action(parameters: parameters)
         
         // is a reponse?
         if action == kResponse {
@@ -121,7 +121,7 @@ open class Manager {
         else {
             // unknown action, notifiy it
             if let errorURLString = parameters[kXCUError], let url = URL(string: errorURLString) {
-                let error = NSError.error(code: .notSupportedAction, failureReason: "\(action) not supported by \(Manager.appName)")
+                let error = NSError.error(code: .notSupportedAction, failureReason: "\(action) not supported by \(CallbackRouter.appName)")
    
                 var comp = URLComponents(url: url, resolvingAgainstBaseURL: false)!
                 comp &= error.XCUErrorQuery
@@ -162,14 +162,14 @@ open class Manager {
     /// Throws: CallbackURLKitError
     open func perform(action: Action, urlScheme: String, parameters: Parameters = [:],
         onSuccess: SuccessCallback? = nil, onFailure: FailureCallback? = nil, onCancel: CancelCallback? = nil) throws {
-            let client = Client(urlScheme: urlScheme)
+            let client = CallbackClient(urlScheme: urlScheme)
             client.manager = self
         try client.perform(action: action, parameters: parameters, onSuccess: onSuccess, onFailure: onFailure, onCancel: onCancel)
     }
 
     open static func perform(action: Action, urlScheme: String, parameters: Parameters = [:],
         onSuccess: SuccessCallback? = nil, onFailure: FailureCallback? = nil, onCancel: CancelCallback? = nil) throws {
-        try Manager.shared.perform(action: action, urlScheme: urlScheme, parameters: parameters, onSuccess: onSuccess, onFailure: onFailure, onCancel: onCancel)
+        try CallbackRouter.shared.perform(action: action, urlScheme: urlScheme, parameters: parameters, onSuccess: onSuccess, onFailure: onFailure, onCancel: onCancel)
     }
     
     /// Utility function to get URL schemes from Info.plist
@@ -189,13 +189,13 @@ open class Manager {
     // MARK: internal
 
 
-    func send(request: Request) throws {
+    func send(request: CallbackRequest) throws {
         if !request.client.appInstalled {
             throw CallbackURLKitError.appWithSchemeNotInstalled(scheme: request.client.urlScheme)
         }
         
         var query: Parameters = [:]
-        query[kXCUSource] = Manager.appName
+        query[kXCUSource] = CallbackRouter.appName
         
         if let scheme = self.callbackURLScheme {
             
@@ -241,7 +241,7 @@ open class Manager {
     }
 
     open static func open(url: Foundation.URL) {
-        Manager.shared.open(url: url)
+        CallbackRouter.shared.open(url: url)
     }
 
     open func open(url: Foundation.URL) {
@@ -278,7 +278,7 @@ open class Manager {
 extension Manager {
 
     public func registerToURLEvent() {
-        NSAppleEventManager.shared().setEventHandler(self, andSelector: #selector(Manager.handleURLEvent(_:withReply:)), forEventClass: AEEventClass(kInternetEventClass), andEventID: AEEventID(kAEGetURL))
+        NSAppleEventManager.shared().setEventHandler(self, andSelector: #selector(CallbackRouter.handleURLEvent(_:withReply:)), forEventClass: AEEventClass(kInternetEventClass), andEventID: AEEventID(kAEGetURL))
     }
 
     @objc public func handleURLEvent(_ event: NSAppleEventDescriptor, withReply replyEvent: NSAppleEventDescriptor) {
