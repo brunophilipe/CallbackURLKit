@@ -54,7 +54,7 @@ public func perform(action: Action, urlScheme: String, parameters: Parameters = 
 }
 
 public func register(action: Action, actionHandler: @escaping ActionHandler) {
-    CallbackRouter.shared[action] = actionHandler
+    CallbackRouter.shared.register(action: action, actionHandler: actionHandler)
 }
 
 // MARK: - Error

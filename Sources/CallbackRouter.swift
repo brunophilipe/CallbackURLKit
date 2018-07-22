@@ -186,6 +186,11 @@ open class CallbackRouter {
         return result.isEmpty ? nil : result
     }
 
+    public func register(action: Action, actionHandler: @escaping ActionHandler)
+    {
+        actions[action] = actionHandler
+    }
+
     // MARK: internal
 
 
