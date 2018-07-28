@@ -242,6 +242,11 @@ open class CallbackRouter {
         if let source = parameters[kXCUSource] {
             result[kXCUSource] = source
         }
+		if let successScheme = URL(string: parameters[kXCUSuccess] ?? "")?.scheme {
+			// Add the url scheme for the success callback to the list of action parameters so that the app knows
+			// what app it is talking to, if necessary.
+			result[kXCUSuccessScheme] = successScheme
+		}
         return result
     }
 

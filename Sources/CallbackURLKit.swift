@@ -121,6 +121,10 @@ let kXCUErrorMessage = "errorMessage"
 // URL to open if the requested action is cancelled by the user. In the case where the target app offer the user the option to “cancel” the requested action, without a success or error result, this the the URL that should be opened to return the user to the source app.
 let kXCUCancel       = "x-cancel"
 
+/// The URL scheme of the client app when handling a URL callback. This can be used to identify which app will receive
+/// the success callback, if necessary.
+let kXCUSuccessScheme = "x-success-scheme"
+
 
 // MARK: - framework strings
 
