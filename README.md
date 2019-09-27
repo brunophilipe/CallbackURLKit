@@ -9,7 +9,13 @@
 [![Issues](https://img.shields.io/github/issues/phimage/CallbackURLKit.svg?style=flat
            )](https://github.com/phimage/CallbackURLKit/issues)
 [![Cocoapod](http://img.shields.io/cocoapods/v/CallbackURLKit.svg?style=flat)](http://cocoadocs.org/docsets/CallbackURLKit/)
-[![Join the chat at https://gitter.im/phimage/CallbackURLKit](https://img.shields.io/badge/GITTER-join%20chat-00D06F.svg)](https://gitter.im/phimage/CallbackURLKit?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
+<a href="https://www.patreon.com/phimage">
+<img src="https://c5.patreon.com/external/logo/become_a_patron_button.png" alt="Become a Patron!" height="35">
+</a>
+<a href="https://paypal.me/ericphimage">
+<img src="https://buymecoffee.intm.org/img/button-paypal-white.png" alt="Buy me a coffee" height="35">
+</a>
 
 [<img align="left" src="logo.png" hspace="20">](#logo) Starting to integrate URL scheme in an app,
 why not be compliant with [x-callback-url](http://x-callback-url.com/specifications/).
@@ -66,9 +72,9 @@ see full sample into [Clients](/Clients) directory. *(You can PR to add new `Cli
 You can check that an application respond to the URL scheme using `client.appInstalled`
 
 #### Use callback closure
-Callbacks allow you to receives informations or status from the targeted applications but before you need to [add x-callback-url support to your app](#add-x-callback-url-support-to-your-app).
+Callbacks allow you to receive data from the target applications, *but before doing this you need to [add x-callback-url support to your app](#add-x-callback-url-support-to-your-app).*
 
-Then you can specify one of the 3 x-callbacks: success, failure and cancel
+Then you can specify one of the 3 x-callbacks: success, failure and cancel.
 
 ```swift
 try client.perform(action: "actionName",
