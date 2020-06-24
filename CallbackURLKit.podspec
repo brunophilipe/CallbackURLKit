@@ -5,6 +5,7 @@ Pod::Spec.new do |s|
   s.version      = "2.3.0"
   s.summary      = "Implemenation of x-callback-url in swift"
   s.homepage     = "https://github.com/phimage/CallbackURLKit"
+  s.swift_version = '5.0'
 
   # ―――  Spec License  ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
   s.license      = "MIT"
